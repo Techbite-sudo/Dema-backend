@@ -1,0 +1,78 @@
+go get github.com/99designs/gqlgen@v0.17.45 && go get github.com/99designs/gqlgen/internal/imports@v0.17.45 && go get github.com/99designs/gqlgen/codegen/config@v0.17.45 && go get github.com/99designs/gqlgen/internal/imports@v0.17.45 && go mod download gopkg.in/yaml.v3 && go run github.com/99designs/gqlgen generate
+
+
+
+Postgress sure db creation procedure:
+
+1. **Install PostgreSQL** (if not already installed):
+   - On Ubuntu:
+     sudo apt update
+     sudo apt install postgresql postgresql-contrib
+
+2. **Start the PostgreSQL service** (if not already running):
+   - On Ubuntu:
+     sudo systemctl start postgresql
+
+3. **Switch to the PostgreSQL user**:
+   sudo -i -u postgres
+
+4. **Open the PostgreSQL interactive terminal (`psql`)**:
+   psql
+
+5. **Create the database and user**:
+   - Create the database:
+     CREATE DATABASE vaultdb;
+
+   - Create the user (if not already existing):
+     CREATE USER postgres WITH PASSWORD '1331';
+
+   - Grant all privileges on the database to the user:
+     GRANT ALL PRIVILEGES ON DATABASE vaultdb TO postgres;
+
+6. **Exit the `psql` terminal**:
+   \q
+
+7. **Exit the PostgreSQL user session**:
+   exit
+
+Now, you should have a PostgreSQL database named `vaultdb` and a user `postgres` with the password `1331`. You can connect to this database using the provided `DATABASE_URL`.
+To test the connection from your application or another tool, you can use the following environment variable setting:
+export DATABASE_URL="postgresql://postgres:1331@localhost/vaultdb"
+
+
+
+
+/* Roles Assignment */
+You make a good point. Instead of having just two user roles (USER and ADMIN), we could introduce additional user roles to distribute the workload and responsibilities more effectively. Here are three additional user roles that we could consider adding to the system:
+
+1. **Nutritionist**:
+   - Role description: A nutritionist is a dietary expert who can provide professional guidance and advice on healthy eating habits and meal planning.
+   - Responsibilities:
+     - Create and manage meal plans based on various dietary requirements and nutritional goals.
+     - Provide nutritional information and educational content related to healthy eating.
+     - Answer user queries and provide personalized dietary recommendations.
+     - Approve or review user-generated meal plans for accuracy and nutritional balance.
+
+2. **Food Supplier**:
+   - Role description: A food supplier is an entity (e.g., farmer, grocery store, or food distributor) that provides locally sourced food items.
+   - Responsibilities:
+     - Add and manage information about locally available foods in the system's database.
+     - Update details like food descriptions, nutritional information, and availability.
+     - Collaborate with admins and nutritionists to ensure accurate and up-to-date food data.
+
+3. **Eatery Manager**:
+   - Role description: An eatery manager is a representative of a local eatery or restaurant that partners with the Dema Africa platform.
+   - Responsibilities:
+     - Add and manage information about their eatery, including location, cuisine type, and contact details.
+     - Update the menu items (meals) offered by their eatery, including descriptions, ingredients, and preparation instructions.
+     - Collaborate with admins and nutritionists to ensure their menu items meet dietary guidelines and recommendations.
+
+By introducing these additional user roles, the responsibilities can be distributed more effectively:
+
+- **Nutritionists** can focus on creating and managing meal plans, providing nutritional guidance, and ensuring the accuracy of dietary information.
+- **Food Suppliers** can maintain up-to-date data about locally available foods, reducing the workload on admins.
+- **Eatery Managers** can manage their respective eateries' information and menu items, reducing the workload on admins.
+- **Admins** can oversee the overall system, manage user accounts, and coordinate with other user roles to ensure smooth operations.
+- **Regular Users** can benefit from the expertise and contributions of nutritionists, food suppliers, and eatery managers, while still having the ability to plan their meals, connect with eateries, and access educational resources.
+
+This distribution of responsibilities can lead to a more efficient and specialized system, where each user role contributes their expertise to enhance the overall experience and quality of the platform.

@@ -1,0 +1,310 @@
+directive @goField(
+  forceResolver: Boolean
+  name: String
+) on INPUT_FIELD_DEFINITION | FIELD_DEFINITION
+
+scalar Time
+
+type Query {
+  FetchUser(token: String!): User!
+  FetchFoods: [Food!]!
+  FetchFood(id: String!): Food!
+  FetchMeals: [Meal!]!
+  FetchMeal(id: String!): Meal!
+  FetchAllUsers: [User!]!
+  FetchUserById(id: String!): User!
+  FetchEateries: [Eatery!]!
+  FetchEatery(id: String!): Eatery!
+  FetchDietaryPreferences: [DietaryPreference!]!
+  FetchAllergies: [Allergy!]!
+}
+
+type Mutation {
+  RegisterUser(input: RegisterUserInput!): AuthPayload!
+  Login(input: LoginInput!): AuthPayload!
+  CreateFood(input: CreateFoodInput!): Food!
+  UpdateFood(id: String!, input: UpdateFoodInput!): Food!
+  DeleteFood(id: String!): Boolean!
+  CreateMeal(input: CreateMealInput!): Meal!
+  UpdateMeal(id: String!, input: UpdateMealInput!): Meal!
+  DeleteMeal(id: String!): Boolean!
+  UpdateUser(id: String!, input: UpdateUserInput!): User!
+  DeleteUser(id: String!): Boolean!
+  CreateEatery(input: CreateEateryInput!): Eatery!
+  UpdateEatery(id: String!, input: UpdateEateryInput!): Eatery!
+  DeleteEatery(id: String!): Boolean!
+  AddFavorite(userId: String!, foodId: String!, mealId: String!): Favorite!
+  RemoveFavorite(id: String!): Boolean!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+input RegisterUserInput {
+  fullName: String!
+  email: String!
+  avatarUrl: String!
+  gender: String!
+  weight: Int!
+  dob: Time!
+  location: String!
+  password: String!
+  confirmPassword: String!
+  role: Role!
+  dietaryPreferenceIds: [String!]!
+  allergyIds: [String!]!
+  height: Int!
+  activityLevel: String!
+}
+
+type AuthPayload {
+  token: String!
+}
+
+type Food {
+  id: String!
+  imageUrl: String!
+  commonName: String!
+  description: String!
+  foodGroup: String!
+  lastUpdate: Time!
+  calories: Calories!
+  otherNames: [FoodName!]!
+  sources: [Source!]!
+  compounds: [Compound!]!
+  nutrients: [Nutrient!]!
+  regionsFound: [String!]!
+  category: String!
+  servingSize: String!
+  verified: Boolean!
+}
+
+type Meal {
+  id: String!
+  docName: String!
+  imageUrl: String!
+  commonName: String!
+  description: String!
+  lastUpdate: Time!
+  foods: [Food!]!
+  otherNames: [String!]!
+  recipe: [RecipeStep!]!
+  ingredients: [Ingredient!]!
+  cuisine: String!
+  preparationTime: String!
+}
+
+type User {
+  id: ID!
+  fullName: String!
+  email: String!
+  avatarUrl: String!
+  gender: String!
+  weight: Int!
+  lastOnline: Time!
+  dob: Time!
+  location: String!
+  password: String!
+  role: Role!
+  dietaryPreferences: [DietaryPreference!]!
+  allergies: [Allergy!]!
+  height: Int!
+  activityLevel: String!
+  favorites: [Favorite!]!
+}
+
+type Eatery {
+  id: String!
+  name: String!
+  location: String!
+  cuisine: String!
+  contactDetails: String!
+  menuItems: [Meal!]!
+}
+
+type Favorite {
+  id: String!
+  user: User!
+  food: Food!
+  meal: Meal!
+  timestamp: Time!
+}
+
+type DietaryPreference {
+  id: String!
+  name: String!
+}
+
+type Allergy {
+  id: String!
+  name: String!
+}
+
+enum Role {
+  USER
+  ADMIN
+  NUTRITIONIST
+  FOODSUPPLIER
+  EATERYMANAGER
+}
+
+
+input CreateFoodInput {
+  imageUrl: String!
+  commonName: String!
+  description: String!
+  foodGroup: String!
+  calories: CaloriesInput!
+  otherNames: [FoodNameInput!]!
+  sources: [SourceInput!]!
+  compounds: [CompoundInput!]!
+  nutrients: [NutrientInput!]!
+  regionsFound: [String!]!
+  category: String!
+  servingSize: String!
+  verified: Boolean!
+}
+
+input UpdateFoodInput {
+  imageUrl: String!
+  commonName: String!
+  description: String!
+  foodGroup: String!
+  calories: CaloriesInput!
+  otherNames: [FoodNameInput!]!
+  sources: [SourceInput!]!
+  compounds: [CompoundInput!]!
+  nutrients: [NutrientInput!]!
+  regionsFound: [String!]!
+  category: String!
+  servingSize: String!
+  verified: Boolean!
+}
+
+input CreateMealInput {
+  docName: String!
+  imageUrl: String!
+  commonName: String!
+  description: String!
+  foodIds: [String!]!
+  otherNames: [String!]!
+  recipe: [RecipeStepInput!]!
+  ingredients: [IngredientInput!]!
+  cuisine: String!
+  preparationTime: String!
+}
+
+input UpdateMealInput {
+  docName: String!
+  imageUrl: String!
+  commonName: String!
+  description: String!
+  foodIds: [String!]!
+  otherNames: [String!]!
+  recipe: [RecipeStepInput!]!
+  ingredients: [IngredientInput!]!
+  cuisine: String!
+  preparationTime: String!
+}
+
+input UpdateUserInput {
+  fullName: String!
+  email: String!
+  avatarUrl: String!
+  gender: String!
+  weight: Int!
+  dob: Time!
+  location: String!
+  password: String!
+  role: Role!
+  dietaryPreferenceIds: [String!]
+  allergyIds: [String!]!
+  height: Int!
+  activityLevel: String!
+}
+
+input CreateEateryInput {
+  name: String!
+  location: String!
+  cuisine: String!
+  contactDetails: String!
+  menuItemIds: [String!]!
+}
+
+input UpdateEateryInput {
+  name: String!
+  location: String!
+  cuisine: String!
+  contactDetails: String!
+  menuItemIds: [String!]!
+}
+
+type Calories {
+  amount: Int!
+}
+
+input CaloriesInput {
+  amount: Int!
+}
+
+type FoodName {
+  category: String!
+  name: String!
+}
+
+input FoodNameInput {
+  category: String!
+  name: String!
+}
+
+type Source {
+  name: String!
+  urlLink: String!
+}
+
+input SourceInput {
+  name: String!
+  urlLink: String!
+}
+
+type Compound {
+  name: String!
+  amount: Int!
+}
+
+input CompoundInput {
+  name: String!
+  amount: Int!
+}
+
+type Nutrient {
+  name: String!
+  amount: Int!
+}
+
+input NutrientInput {
+  name: String!
+  amount: Int!
+}
+
+type RecipeStep {
+  step: Int!
+  description: String!
+}
+
+input RecipeStepInput {
+  step: Int!
+  description: String!
+}
+
+type Ingredient {
+  name: String!
+  amount: String!
+}
+
+input IngredientInput {
+  name: String!
+  amount: String!
+}
