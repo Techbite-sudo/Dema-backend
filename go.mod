@@ -3,7 +3,7 @@ module Dema-backend
 go 1.20
 
 require (
-	github.com/99designs/gqlgen v0.17.47
+	github.com/99designs/gqlgen v0.17.45
 	github.com/gofiber/fiber/v2 v2.52.4
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/joho/godotenv v1.5.1

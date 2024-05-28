@@ -47,7 +47,6 @@ input RegisterUserInput {
   email: String!
   password: String!
   confirmPassword: String!
-  role: Role!
 }
 
 type AuthPayload {
@@ -55,29 +54,22 @@ type AuthPayload {
 }
 
 type User {
-  id: String!
+  id: ID!
   fullName: String!
   email: String!
-  password: String!
   avatarUrl: String!
   gender: String!
-  lastOnline: Time!
-  role: Role!
-  createdAt: Time!
-  accountType: AccountType!
-  location: String!
-}
-
-type Customer {
-  id: String!
-  dob: Time!
   weight: Int!
+  lastOnline: Time!
+  dob: Time!
+  location: String!
+  password: String!
+  role: Role!
+  dietaryPreferences: [DietaryPreference!]!
+  allergies: [Allergy!]!
   height: Int!
-  foodPreference: String!
-  allergies: [String!]
-  numberOfMeals: Int!
-  meals: [String!]!
-  history: [String!]!
+  activityLevel: String!
+  favorites: [Favorite!]!
 }
 
 type Food {
@@ -116,9 +108,6 @@ type Meal {
 type Eatery {
   id: String!
   name: String!
-  menu: [String!]!
-  takeout: Boolean!
-  booking: Boolean!
   location: String!
   cuisine: String!
   contactDetails: String!

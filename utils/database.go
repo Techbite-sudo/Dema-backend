@@ -41,6 +41,7 @@ func InitialiseDB() {
 		&models.Meal{},
 		&models.Nutrient{},
 		&models.RecipeStep{},
+		&models.Customer{},
 
 
 

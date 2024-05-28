@@ -29,6 +29,7 @@ func ValidateRegistration(input model.RegisterUserInput) (*model.AuthPayload, er
 	}
 
 	newUser := models.User{
+		FullName: input.Name,
 		Email:    input.Email,
 		Password: password,
 		Role:     models.Role(input.Role),

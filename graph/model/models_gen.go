@@ -73,18 +73,33 @@ type CreateMealInput struct {
 	PreparationTime string             `json:"preparationTime"`
 }
 
+type Customer struct {
+	ID             string    `json:"id"`
+	Dob            time.Time `json:"dob"`
+	Weight         int       `json:"weight"`
+	Height         int       `json:"height"`
+	FoodPreference string    `json:"foodPreference"`
+	Allergies      []string  `json:"allergies,omitempty"`
+	NumberOfMeals  int       `json:"numberOfMeals"`
+	Meals          []string  `json:"meals"`
+	History        []string  `json:"history"`
+}
+
 type DietaryPreference struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
 }
 
 type Eatery struct {
-	ID             string  `json:"id"`
-	Name           string  `json:"name"`
-	Location       string  `json:"location"`
-	Cuisine        string  `json:"cuisine"`
-	ContactDetails string  `json:"contactDetails"`
-	MenuItems      []*Meal `json:"menuItems"`
+	ID             string   `json:"id"`
+	Name           string   `json:"name"`
+	Menu           []string `json:"menu"`
+	Takeout        bool     `json:"takeout"`
+	Booking        bool     `json:"booking"`
+	Location       string   `json:"location"`
+	Cuisine        string   `json:"cuisine"`
+	ContactDetails string   `json:"contactDetails"`
+	MenuItems      []*Meal  `json:"menuItems"`
 }
 
 type Favorite struct {
@@ -180,20 +195,11 @@ type RecipeStepInput struct {
 }
 
 type RegisterUserInput struct {
-	FullName             string    `json:"fullName"`
-	Email                string    `json:"email"`
-	AvatarURL            string    `json:"avatarUrl"`
-	Gender               string    `json:"gender"`
-	Weight               int       `json:"weight"`
-	Dob                  time.Time `json:"dob"`
-	Location             string    `json:"location"`
-	Password             string    `json:"password"`
-	ConfirmPassword      string    `json:"confirmPassword"`
-	Role                 Role      `json:"role"`
-	DietaryPreferenceIds []string  `json:"dietaryPreferenceIds"`
-	AllergyIds           []string  `json:"allergyIds"`
-	Height               int       `json:"height"`
-	ActivityLevel        string    `json:"activityLevel"`
+	Name            string `json:"name"`
+	Email           string `json:"email"`
+	Password        string `json:"password"`
+	ConfirmPassword string `json:"confirmPassword"`
+	Role            Role   `json:"role"`
 }
 
 type Source struct {
@@ -260,45 +266,79 @@ type UpdateUserInput struct {
 }
 
 type User struct {
-	ID                 string               `json:"id"`
-	FullName           string               `json:"fullName"`
-	Email              string               `json:"email"`
-	AvatarURL          string               `json:"avatarUrl"`
-	Gender             string               `json:"gender"`
-	Weight             int                  `json:"weight"`
-	LastOnline         time.Time            `json:"lastOnline"`
-	Dob                time.Time            `json:"dob"`
-	Location           string               `json:"location"`
-	Password           string               `json:"password"`
-	Role               Role                 `json:"role"`
-	DietaryPreferences []*DietaryPreference `json:"dietaryPreferences"`
-	Allergies          []*Allergy           `json:"allergies"`
-	Height             int                  `json:"height"`
-	ActivityLevel      string               `json:"activityLevel"`
-	Favorites          []*Favorite          `json:"favorites"`
+	ID          string      `json:"id"`
+	FullName    string      `json:"fullName"`
+	Email       string      `json:"email"`
+	Password    string      `json:"password"`
+	AvatarURL   string      `json:"avatarUrl"`
+	Gender      string      `json:"gender"`
+	LastOnline  time.Time   `json:"lastOnline"`
+	Role        Role        `json:"role"`
+	CreatedAt   time.Time   `json:"createdAt"`
+	AccountType AccountType `json:"accountType"`
+	Location    string      `json:"location"`
+}
+
+type AccountType string
+
+const (
+	AccountTypeIndividual AccountType = "INDIVIDUAL"
+	AccountTypeBusiness   AccountType = "BUSINESS"
+)
+
+var AllAccountType = []AccountType{
+	AccountTypeIndividual,
+	AccountTypeBusiness,
+}
+
+func (e AccountType) IsValid() bool {
+	switch e {
+	case AccountTypeIndividual, AccountTypeBusiness:
+		return true
+	}
+	return false
+}
+
+func (e AccountType) String() string {
+	return string(e)
+}
+
+func (e *AccountType) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = AccountType(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid AccountType", str)
+	}
+	return nil
+}
+
+func (e AccountType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
 type Role string
 
 const (
-	RoleUser          Role = "USER"
-	RoleAdmin         Role = "ADMIN"
-	RoleNutritionist  Role = "NUTRITIONIST"
-	RoleFoodsupplier  Role = "FOODSUPPLIER"
-	RoleEaterymanager Role = "EATERYMANAGER"
+	RoleAdmin     Role = "ADMIN"
+	RoleDataEntry Role = "DATA_ENTRY"
+	RoleCustomer  Role = "CUSTOMER"
+	RoleEatery    Role = "EATERY"
 )
 
 var AllRole = []Role{
-	RoleUser,
 	RoleAdmin,
-	RoleNutritionist,
-	RoleFoodsupplier,
-	RoleEaterymanager,
+	RoleDataEntry,
+	RoleCustomer,
+	RoleEatery,
 }
 
 func (e Role) IsValid() bool {
 	switch e {
-	case RoleUser, RoleAdmin, RoleNutritionist, RoleFoodsupplier, RoleEaterymanager:
+	case RoleAdmin, RoleDataEntry, RoleCustomer, RoleEatery:
 		return true
 	}
 	return false
