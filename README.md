@@ -1,5 +1,4 @@
 
-```
 # Authentication Made Easy
 
 Welcome to our seamless authentication system! We've streamlined the process of registering and logging in, making it a breeze for you to get started. Follow along as we guide you through the simple steps.
