@@ -1,7 +1,7 @@
 
 # Authentication Made Easy
 
-Welcome to our seamless authentication system! We've streamlined the process of registering and logging in, making it a breeze for you to get started. Follow along as we guide you through the simple steps.
+Welcome to Dema seamless authentication system! We've streamlined the process of registering and logging in, making it a breeze for you to get started. Follow along as we guide you through the simple steps.
 
 ## Register a New User
 
@@ -74,8 +74,3 @@ Simply include this token in the `Authorization` header of your subsequent reque
 ```
 Authorization: Bearer <your_token_here>
 ```
-
-Start building amazing applications today with our seamless authentication system!
-```
-
-This markdown section provides a clear and engaging explanation of the registration and login process, complete with examples of the mutations and expected responses. It also includes a breakdown of the JWT token structure, highlighting its importance and how to include it in subsequent requests. Feel free to customize or expand upon this markdown as needed to fit your specific requirements.
