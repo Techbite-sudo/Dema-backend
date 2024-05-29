@@ -28,20 +28,19 @@ func InitialiseDB() {
 
 	setupModels(
 		&models.User{},
-		&models.Eatery{},
-		&models.Calories{},
-		&models.Allergy{},
-		&models.Compound{},
-		&models.Compound{},
-		&models.DietaryPreference{},
-		&models.Favorite{},
-		&models.Food{},
-		&models.FoodName{},
-		&models.Ingredient{},
-		&models.Meal{},
-		&models.Nutrient{},
-		&models.RecipeStep{},
-		&models.Customer{},
+		// &models.Eatery{},
+		// &models.Calories{},
+		// &models.Allergy{},
+		// &models.Compound{},
+		// &models.DietaryPreference{},
+		// &models.Favorite{},
+		// &models.Food{},
+		// &models.FoodName{},
+		// &models.Ingredient{},
+		// &models.Meal{},
+		// &models.Nutrient{},
+		// &models.RecipeStep{},
+		// &models.Customer{},
 
 
 

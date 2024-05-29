@@ -21,7 +21,7 @@ Postgress sure db creation procedure:
 
 5. **Create the database and user**:
    - Create the database:
-     CREATE DATABASE vaultdb;
+     CREATE DATABASE demadb;
 
    - Create the user (if not already existing):
      CREATE USER postgres WITH PASSWORD '1331';

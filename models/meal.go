@@ -2,6 +2,8 @@ package models
 
 import(
 	"time"
+	uuid "github.com/satori/go.uuid"
+
 )
 
 type Meal struct {
@@ -20,11 +22,15 @@ type Meal struct {
 }
 
 type RecipeStep struct {
+    Base
+    MealID   uuid.UUID `gorm:"type:uuid"`
     Step        int    `gorm:"not null"`
     Description string `gorm:"not null"`
 }
 
 type Ingredient struct {
+    Base
+    MealID   uuid.UUID `gorm:"type:uuid"`
     Name   string `gorm:"not null"`
     Amount string `gorm:"not null"`
 }
